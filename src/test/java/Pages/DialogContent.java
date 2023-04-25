@@ -10,7 +10,6 @@ public class DialogContent extends MyMethods {
     public DialogContent (){
         PageFactory.initElements(BasicDriver.getDriver(), this);
     }
-
     @FindBy(css = "input[placeholder='Username']")
     private WebElement loginUsername;
 
@@ -25,6 +24,7 @@ public class DialogContent extends MyMethods {
 
     @FindBy(xpath = "//div[@class='ng-star-inserted']//span[contains(text(),'Dashboard')]")
     private WebElement dashBoardHeader;
+
     public WebElement getLoginUsername() {
         return loginUsername;
     }
@@ -46,5 +46,4 @@ public class DialogContent extends MyMethods {
 
     }
 }
-
 

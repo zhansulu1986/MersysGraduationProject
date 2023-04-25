@@ -5,5 +5,4 @@ Feature: Login Functionality
     Given Navigate to Campus
     When Enter username and password
     And Click on Login Button
-    Then User should be able login successfully
-
+    Then User should login successfully
