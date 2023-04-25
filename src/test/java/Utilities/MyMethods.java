@@ -2,46 +2,97 @@ package Utilities;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
 public class MyMethods {
-    // all methods here
-    // click ,scroll , wait method , send keys method
-    //we will use object inside this class only
+    public WebDriverWait wait = new WebDriverWait(BasicDriver.getDriver(), Duration.ofSeconds(30));
 
-    WebDriverWait wait= new WebDriverWait(BasicDriver.getDriver(), Duration.ofSeconds(30));   // since is static we call by name of metod
-
-    public void sendKeysMethod(WebElement element, String value){       //web element with some name
-        wait.until(ExpectedConditions.visibilityOf(element));           //second one options
-        element.sendKeys(value);
-
+    public void sendKeysMethod(WebElement element, String keys) {
+        waitUntilVisible(element);
+        scrollToElement(element);
+        element.clear();
+        element.sendKeys(keys);
     }
-    public void clickMethod(WebElement element) {
+
+    public void waitUntilVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void waitUntilClickable(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
     }
-    public void scrollMethod(WebElement element){                           //integer ofset ??
-        // wait.until(ExpectedConditions.visibilityOf(element));             // do not work with this metod below
-        JavascriptExecutor js = (JavascriptExecutor) BasicDriver.getDriver();   //scroll down untill visible
+
+    public void scrollToElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) BasicDriver.getDriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
-    public String  getTextMethod(WebElement element){      //contains metod we need value ?
-        wait.until(ExpectedConditions.visibilityOf(element));
-        //element.getText();  //we did on below
 
+    public void clickMethod(WebElement element) {
+        waitUntilClickable(element);
+        scrollToElement(element);
+        element.click();
 
-        return element.getText();
     }
-    public void wait(int sec){
+
+    public void verifyContainsText(WebElement element, String value) {
+        waitUntilVisible(element);
+        Assert.assertTrue(element.getText().contains(value));
+    }
+
+    public boolean isPresent(WebElement element) {
+        waitUntilClickable(element);
+        return element.isDisplayed();
+    }
+
+    public boolean isDisplayed(WebElement element) {
+        return element.isDisplayed();
+    }
+
+    public boolean isSelected(WebElement element) {
+        waitUntilClickable(element);
+        return element.isSelected();
+    }
+
+    public boolean verifyIsDisplayedMethod(WebElement element) {
+        waitUntilClickable(element);
+        return element.isDisplayed();
+    }
+
+    public void wait(int second) {
         try {
-            Thread.sleep(sec*1000);
+            Thread.sleep(second * 1000L);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public boolean isSelectedMethod(WebElement element) {
+        waitUntilClickable(element);
+        return element.isSelected();
+    }
+
+    public void hoverOver(WebElement element) {
+        Actions actions = new Actions(BasicDriver.getDriver());
+        Action hoverOverElement = actions.moveToElement(element).build();
+        hoverOverElement.perform();
+    }
+
+    public void selectMethod(WebElement element) {
+        Select select = new Select(element);
+        element.click();
+
+    }
+
+    public void scroll(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) BasicDriver.getDriver();
+        js.executeScript("arguments[0].scrollLeft += 500", element);
+    }
 
 }
