@@ -4,35 +4,60 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
 
 public class BasicDriver {
-    private static WebDriver driver;    // ?????? null not exist yet
+    private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
+    private static ThreadLocal<String> threadDriverName = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
-        if (driver == null) {                             //if its null
-            ChromeOptions options = new ChromeOptions();  //create new chorome driver
-            options.addArguments("--remote-allow-origins=*");
+        if (threadDriver.get() == null) {
 
-            System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");  //silent purpose
+            if (threadDriverName.get() == null) {
+                threadDriverName.set("chrome");
+            }
 
-
-            driver = new ChromeDriver(options);            //help work vith new version of chrom
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            switch (threadDriverName.get()) {
+                case "firefox":
+                    threadDriver.set(new FirefoxDriver());
+                    threadDriver.get().manage().window().maximize();
+                    break;
+                case "safari":
+                    threadDriver.set(new SafariDriver());
+                    threadDriver.get().manage().window().maximize();
+                    break;
+                case "edge":
+                    threadDriver.set(new EdgeDriver());
+                    threadDriver.get().manage().window().maximize();
+                    break;
+                default:
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--remote-allow-origins=*"); // To solve the error with Chrome v111
+                    threadDriver.set(new ChromeDriver(options));
+                    threadDriver.get().manage().window().maximize();
+            }
         }
-        return driver;
+        return threadDriver.get();
     }
 
-    public static void quitDriver(){
+    public static void quitDriver() {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        driver.quit();
-        driver=null;
-
+        if (threadDriver.get() != null) {
+            threadDriver.get().quit();
+            threadDriver.set(null);
+        }
     }
+
+    public static void setThreadDriverName(String browserName) {
+        threadDriverName.set(browserName);
+    }
+
 }
