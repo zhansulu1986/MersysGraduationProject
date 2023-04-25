@@ -4,6 +4,7 @@ import Utilities.BasicDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
+
 public class Hooks {
     @Before
     public void beforeScenario() {
@@ -14,5 +15,3 @@ public class Hooks {
         BasicDriver.quitDriver();
     }
 
-
-}

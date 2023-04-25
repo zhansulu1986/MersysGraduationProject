@@ -60,4 +60,3 @@ public class BasicDriver {
         threadDriverName.set(browserName);
     }
 
-}

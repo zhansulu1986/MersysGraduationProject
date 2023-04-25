@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class DialogContent extends MyMethods {
-    public DialogContent(){
+    public DialogContent (){
         PageFactory.initElements(BasicDriver.getDriver(), this);
     }
     @FindBy(css = "input[placeholder='Username']")
@@ -46,3 +46,4 @@ public class DialogContent extends MyMethods {
 
     }
 }
+

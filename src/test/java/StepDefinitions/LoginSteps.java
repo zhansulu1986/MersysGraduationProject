@@ -13,9 +13,11 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+
 public class LoginSteps extends MyMethods {
     DialogContent elements = new DialogContent();
     WebDriverWait wait = new WebDriverWait(BasicDriver.getDriver(), Duration.ofSeconds(10));
+    
     @Given("Navigate to Campus")
     public void navigate_to_campus() {
         BasicDriver.getDriver().get("https://test.mersys.io/");
@@ -41,5 +43,5 @@ public class LoginSteps extends MyMethods {
         wait.until(ExpectedConditions.visibilityOf(elements.getDashBoardHeader()));
         Assert.assertTrue(elements.getDashBoardHeader().isDisplayed());
         throw new io.cucumber.java.PendingException();
-    }
+}
 }
