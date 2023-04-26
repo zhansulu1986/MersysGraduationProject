@@ -16,13 +16,13 @@ public class DialogContent extends MyMethods {
     @FindBy(css = "input[placeholder='Password']")
     private WebElement loginPassword;
 
-    @FindBy(xpath = "//span[contains(text(),'LOGIN')]")
+    @FindBy(css ="button[aria-label='LOGIN']")
     private WebElement loginBtn;
 
-    @FindBy(xpath = "//div[contains(text(),'successfully')]")
+    @FindBy(linkText = "//div[contains(text(),'successfully')]")
     private WebElement successMessage;
 
-    @FindBy(xpath = "//div[@class='ng-star-inserted']//span[contains(text(),'Dashboard')]")
+    @FindBy(xpath = "(//span[contains(text(),'Dashboard')])[2]")
     private WebElement dashBoardHeader;
 
     public WebElement getLoginUsername() {
