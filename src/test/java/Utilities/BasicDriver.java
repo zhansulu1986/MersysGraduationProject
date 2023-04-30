@@ -59,4 +59,4 @@ public class BasicDriver {
     public static void setThreadDriverName(String browserName) {
         threadDriverName.set(browserName);
     }
-
+}
