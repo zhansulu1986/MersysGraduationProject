@@ -10,8 +10,10 @@ public class Hooks {
     public void beforeScenario() {
 
     }
+
     @After
     public void afterScenario() {
-        BasicDriver.quitDriver();
+    //    BasicDriver.quitDriver();
     }
+}
 
